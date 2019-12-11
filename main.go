@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/object-it/fizzbuzzhttp/fizzbuzzer"
 	"github.com/sirupsen/logrus"
 )
+
+var version string = "undefined"
 
 func main() {
 	router := mux.NewRouter()
@@ -25,5 +28,5 @@ func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
 	fb := fizzbuzzer.New()
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fb.Get()))
+	fmt.Fprint(w, fb.Get())
 }
