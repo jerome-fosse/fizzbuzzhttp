@@ -40,12 +40,12 @@ func (fb *fizzbuzzer) getFizzbuzzValue(i int) string {
 	}
 }
 
-// New create a new Fizzbuzzer
-func New() Fizzbuzzer {
-	return NewDetailledFizzbuzzer(3, 5, 15, "Fizz", "Buzz")
+// NewWithDefaultValues create a new Fizzbuzzer
+func NewWithDefaultValues() Fizzbuzzer {
+	return New(3, 5, 15, "Fizz", "Buzz")
 }
 
-// NewDetailledFizzbuzzer create a fizzbuzzer with the parameters given to the constructor
-func NewDetailledFizzbuzzer(int1, int2, limit int, word1, word2 string) Fizzbuzzer {
+// New create a fizzbuzzer with the parameters given to the constructor
+func New(int1, int2, limit int, word1, word2 string) Fizzbuzzer {
 	return &fizzbuzzer{int1: int1, int2: int2, limit: limit, word1: word1, word2: word2}
 }

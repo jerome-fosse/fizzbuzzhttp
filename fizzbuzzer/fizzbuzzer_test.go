@@ -8,7 +8,7 @@ import (
 
 func Test_Values_multiples_of_int1_should_be_replaced_by_word1(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by three only by fizz
-	fb := NewDetailledFizzbuzzer(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
+	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
 	// All values divisibles by 3 only are replaced by fizz
 	assert.Equal(t, "fizz", fb.getFizzbuzzValue(3))
@@ -20,7 +20,7 @@ func Test_Values_multiples_of_int1_should_be_replaced_by_word1(t *testing.T) {
 
 func Test_Values_multiples_of_int2_should_be_replaced_by_word2(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by five only by buzz
-	fb := NewDetailledFizzbuzzer(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
+	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
 	// All values divisibles by 5 only are replaced y buzzb
 	assert.Equal(t, "buzz", fb.getFizzbuzzValue(5))
@@ -32,7 +32,7 @@ func Test_Values_multiples_of_int2_should_be_replaced_by_word2(t *testing.T) {
 
 func Test_values_divisible_by_int1_and_int2_are_replaced_by_word1word2(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by three only by fizz and all values divisible by five only by buzz
-	fb := NewDetailledFizzbuzzer(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
+	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
 	// All values divisibles by 3 and 5 are replaced by fizzbuzz
 	assert.Equal(t, "fizzbuzz", fb.getFizzbuzzValue(15))
@@ -42,7 +42,7 @@ func Test_values_divisible_by_int1_and_int2_are_replaced_by_word1word2(t *testin
 
 func Test_Values_divisible_nor_by_int1_and_int2_are_converted_to_a_string(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by three only by fizz and all values divisible by five only by buzz
-	fb := NewDetailledFizzbuzzer(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
+	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
 	// All values divisibles by 5 only are replaced by buzz
 	assert.Equal(t, "1", fb.getFizzbuzzValue(1))
@@ -55,7 +55,7 @@ func Test_Values_divisible_nor_by_int1_and_int2_are_converted_to_a_string(t *tes
 
 func Test_Fizzbuzzer_should_return_as_many_strings_as_the_limit(t *testing.T) {
 	// Given a default fizzbuzzer
-	fb := New().(*fizzbuzzer)
+	fb := NewWithDefaultValues().(*fizzbuzzer)
 
 	// When I get the fizzbuzz values
 	values := fb.Get()
@@ -66,7 +66,7 @@ func Test_Fizzbuzzer_should_return_as_many_strings_as_the_limit(t *testing.T) {
 
 func Test_Fizzbuzzer_should_generate_a_correct_fizzbuzz(t *testing.T) {
 	// Given a fizzbuzzer with a limit of 15
-	fb := NewDetailledFizzbuzzer(3, 5, 15, "fizz", "buzz")
+	fb := New(3, 5, 15, "fizz", "buzz")
 
 	// When I get the fizzbuzz values
 	values := fb.Get()

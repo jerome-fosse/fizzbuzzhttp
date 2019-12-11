@@ -1,17 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"net/http"
+	"os"
+	"os/signal"
 
 	"github.com/gorilla/mux"
-	"github.com/object-it/fizzbuzzhttp/fizzbuzzer"
 	"github.com/sirupsen/logrus"
 )
 
-var version string = "undefined"
+var version = "undefined"
+
+func init() {
+	logrus.SetFormatter(&logrus.TextFormatter{
+		FullTimestamp: true,
+	})
+}
 
 func main() {
+	logrus.Infof("Starting Fizzbuzz %s.", version)
+
 	router := mux.NewRouter()
 	router.HandleFunc("/fizzbuzz", FizzbuzzHandler)
 
@@ -20,13 +29,22 @@ func main() {
 		Handler: router,
 	}
 
-	logrus.Fatal(srv.ListenAndServe())
-}
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			logrus.Fatal(err)
+		}
+	}()
 
-// FizzbuzzHandler handles http requests to fizzbuzz
-func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
-	fb := fizzbuzzer.New()
+	logrus.Info("Fizzbuzz is started and ready to serve requests.")
 
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, fb.Get())
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	<-stop
+
+	logrus.Info("Stopping Fizzbuzz.")
+	if err := srv.Shutdown(context.Background()); err != nil {
+		logrus.Errorf("Error while shutting down Fizzbuzz. %v\n", err)
+	}
+
+	logrus.Infoln("Fizzbuzz is stopped.")
 }
