@@ -14,7 +14,7 @@ test:
 
 check-version:
 ifndef ${VERSION}
-VERSION = v0.0.0
+VERSION = 0.0.0
 endif
 
 build: clean test check-version
@@ -25,3 +25,10 @@ build: clean test check-version
 install: build
 	@echo "Installing "${PROJECTNAME}" in "${GOBIN}
 	@go install	
+
+build-image:
+	@docker build --tag jfosse/fizzbuzzhttp:latest --tag jfosse/fizzbuzzhttp:${VERSION} .
+
+push-image: build-image
+	@docker push jfosse/fizzbuzzhttp:latest	
+	@docker push jfosse/fizzbuzzhttp:${VERSION}	

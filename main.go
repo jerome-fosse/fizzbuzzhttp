@@ -11,6 +11,7 @@ import (
 )
 
 var version = "undefined"
+var build = "undefined"
 
 func init() {
 	logrus.SetFormatter(&logrus.TextFormatter{
@@ -19,13 +20,13 @@ func init() {
 }
 
 func main() {
-	logrus.Infof("Starting Fizzbuzz %s.", version)
+	logrus.Infof("Starting Fizzbuzz v%s Build: %s", version, build)
 
 	router := mux.NewRouter()
 	router.HandleFunc("/fizzbuzz", FizzbuzzHandler)
 
 	srv := http.Server{
-		Addr:    "localhost:8080",
+		Addr:    ":8080",
 		Handler: router,
 	}
 
