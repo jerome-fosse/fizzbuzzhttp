@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/sirupsen/logrus"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/object-it/fizzbuzzhttp/fizzbuzzer"
 )
@@ -25,8 +27,9 @@ func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFizzbuzz(w http.ResponseWriter, r *http.Request) {
-	logrus.Info("Requesting new Fizzbuzz.")
-	fb := fizzbuzzer.NewWithDefaultValues()
+	int1, word1, int2, word2, limit := parseRequestParameters(r.URL)
+	logrus.Infof("Requesting new Fizzbuzz with parameters int1=%d word1=%s int2=%d word2=%s limit=%d", int1, word1, int2, word2, limit)
+	fb := fizzbuzzer.New(int1, int2, limit, word1, word2)
 
 	body, err := json.Marshal(Fizzbuzz{fb.Get()})
 	if err != nil {
@@ -34,6 +37,40 @@ func getFizzbuzz(w http.ResponseWriter, r *http.Request) {
 	} else {
 		okResponse(w, body)
 	}
+}
+
+func parseRequestParameters(url *url.URL) (int1 int, word1 string, int2 int, word2 string, limit int) {
+	int1, err := parseParamToInt(url, "int1")
+	if err != nil {
+		logrus.Debugf("int1: %s", err.Error())
+		int1 = 3
+	}
+
+	int2, err = parseParamToInt(url, "int2")
+	if err != nil {
+		logrus.Debugf("int2: %s", err.Error())
+		int2 = 5
+	}
+
+	limit, err = parseParamToInt(url, "limit")
+	if err != nil {
+		logrus.Debugf("limit: %s", err.Error())
+		limit = 15
+	}
+
+	word1, err = parseParam(url, "word1")
+	if err != nil {
+		logrus.Debugf("word1: %s", err.Error())
+		word1 = "fizz"
+	}
+
+	word2, err = parseParam(url, "word2")
+	if err != nil {
+		logrus.Debugf("word2: %s", err.Error())
+		word2 = "buzz"
+	}
+
+	return
 }
 
 func okResponse(w http.ResponseWriter, body []byte) {
