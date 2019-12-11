@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Values_multiples_of_int1_should_be_replaced_by_word1(t *testing.T) {
+func Test_multiples_of_int1_should_be_replaced_by_word1(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by three only by fizz
 	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
@@ -18,7 +18,7 @@ func Test_Values_multiples_of_int1_should_be_replaced_by_word1(t *testing.T) {
 	assert.NotEqual(t, "fizz", fb.getFizzbuzzValue(15))
 }
 
-func Test_Values_multiples_of_int2_should_be_replaced_by_word2(t *testing.T) {
+func Test_multiples_of_int2_should_be_replaced_by_word2(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by five only by buzz
 	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
@@ -30,7 +30,7 @@ func Test_Values_multiples_of_int2_should_be_replaced_by_word2(t *testing.T) {
 	assert.Equal(t, "buzz", fb.getFizzbuzzValue(25))
 }
 
-func Test_values_divisible_by_int1_and_int2_are_replaced_by_word1word2(t *testing.T) {
+func Test_multiples_of_int1_and_int2_are_replaced_by_word1word2(t *testing.T) {
 	// Given a fizzbuzzer that replace all values divisible by three only by fizz and all values divisible by five only by buzz
 	fb := New(3, 5, 6, "fizz", "buzz").(*fizzbuzzer)
 
