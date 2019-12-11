@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/object-it/fizzbuzzhttp/fizzbuzzer"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,6 +22,8 @@ func main() {
 
 // FizzbuzzHandler handles http requests to fizzbuzz
 func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
+	fb := fizzbuzzer.New()
+
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Soon Fizzbuzz here"))
+	w.Write([]byte(fb.Get()))
 }
