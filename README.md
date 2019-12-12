@@ -13,8 +13,9 @@ GNU/Make is used to compile and install the project. Several commands are availa
 
 - make build : Compile, test and build the project
 - make install : Compile, test, build and install the project
-- make build-image : Build the docker image
-- make push-image : Build and push the docker image to docker hub
+- make docker-build : Build the docker image
+- make integration-test : Build the docker image and run the integrations tests
+- make docker-push : Build, run the integrations test and push the docker image to docker hub
 
 # Execution
 Simply run 
