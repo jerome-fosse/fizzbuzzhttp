@@ -2,6 +2,10 @@ VERSION := $(shell git describe --tags)
 BUILD := $(shell git rev-parse --short HEAD)
 PROJECTNAME := $(shell basename "$(PWD)")
 
+ifndef VERSION
+	VERSION = 0.0.0
+endif
+
 default: build
 
 clean: 
@@ -12,13 +16,8 @@ test:
 	@echo "Testing..."
 	@go test -v ./...
 
-check-version:
-ifndef ${VERSION}
-VERSION = 0.0.0
-endif
-
-build: clean test check-version
-	@echo "Building..."
+build: clean test
+	@echo "Building version ${VERSION}"
 	@go build -i -o ${PROJECTNAME} -v -ldflags "-X main.version=${VERSION} -X main.build=${BUILD}"
 	@echo "Done."
 
