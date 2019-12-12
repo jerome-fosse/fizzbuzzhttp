@@ -35,7 +35,10 @@ Exemple :
 ```
 
 ## Endpoint
-There is one endpoint : GET /fizzbuzz
+1 - GET /whoami<br>
+Show version number.
+
+2 - GET /fizzbuzz<br>
 This endpoint generate a fizzbuzz sequence with 15 elements. Its behaviour can be customized with 5 query parameters :
 
 - int1 : every numbers that can be divided by int1 will be replaced by fizz or an other word that can be set with a parameter.<br>

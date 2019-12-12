@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -38,6 +39,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/fizzbuzz", FizzbuzzHandler)
+	router.HandleFunc("/whoami", whoami)
 
 	srv := http.Server{
 		Addr:    ":" + strconv.Itoa(port),
@@ -62,4 +64,15 @@ func main() {
 	}
 
 	logrus.Infoln("Fizzbuzz is stopped.")
+}
+
+func whoami(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+	if r.Method == http.MethodGet {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "FizzBuzz HTTP v%s written by Jérôme Fosse.", version)
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w, "404 page not found")
+	}
 }
