@@ -35,7 +35,7 @@ func Test_FizzBuzz_OK(t *testing.T) {
 
 func Test_FizzBuzz_WithParams_OK(t *testing.T) {
 	client := &http.Client{}
-	r, err := http.NewRequest(http.MethodGet, "http://localhost:8080/fizzbuzz?int1=4&word1=Hello&int2=6&word2=World&limit30", nil)
+	r, err := http.NewRequest(http.MethodGet, "http://localhost:8080/fizzbuzz?int1=4&word1=Hello&int2=6&word2=World&limit=30", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -52,5 +52,5 @@ func Test_FizzBuzz_WithParams_OK(t *testing.T) {
 	}
 
 	assert.Equal(t, 200, resp.StatusCode)
-	assert.Equal(t, "{\"result\":[\"1\",\"2\",\"3\",\"Hello\",\"5\",\"World\",\"7\",\"Hello\",\"9\",\"10\",\"11\",\"HelloWorld\",\"13\",\"14\",\"15\"]}", string(bytes))
+	assert.Equal(t, "{\"result\":[\"1\",\"2\",\"3\",\"Hello\",\"5\",\"World\",\"7\",\"Hello\",\"9\",\"10\",\"11\",\"HelloWorld\",\"13\",\"14\",\"15\",\"Hello\",\"17\",\"World\",\"19\",\"Hello\",\"21\",\"22\",\"23\",\"HelloWorld\",\"25\",\"26\",\"27\",\"Hello\",\"29\",\"World\"]}", string(bytes))
 }

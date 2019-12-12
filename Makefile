@@ -26,7 +26,7 @@ install: build
 	@go install	
 
 docker-build:
-	@docker build --rm --tag jfosse/fizzbuzzhttp:latest --tag jfosse/fizzbuzzhttp:${VERSION} .
+	@docker build --tag jfosse/fizzbuzzhttp:latest --tag jfosse/fizzbuzzhttp:${VERSION} --force-rm --build-arg VERSION=${VERSION} .
 
 integration-test: docker-build
 	@docker run --rm --name fizzbuzzhttpIT -d -p 8080:8080 jfosse/fizzbuzzhttp:${VERSION}
@@ -34,5 +34,5 @@ integration-test: docker-build
 	@docker stop fizzbuzzhttpIT
 
 docker-push: integration-test
-	@docker push jfosse/fizzbuzzhttp:latest	
+	@docker push jfosse/fizzbuzzhttp:latest
 	@docker push jfosse/fizzbuzzhttp:${VERSION}	
