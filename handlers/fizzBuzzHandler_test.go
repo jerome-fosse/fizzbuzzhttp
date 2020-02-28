@@ -1,66 +1,14 @@
-package main
+package handlers
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/object-it/fizzbuzzhttp/statistics"
+
 	"github.com/stretchr/testify/assert"
 )
-
-func Test_should_return_default_value_when_fizzbuzz_parameter_are_not_found(t *testing.T) {
-	// Given a fizzbuzz request without parameters
-	r, err := http.NewRequest(http.MethodGet, "/fizzbuzz", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// When I parse the URL to find the parameters
-	int1, word1, int2, word2, limit := parseRequestParameters(r.URL)
-
-	// Then the parameters are equall to the default values
-	assert.Equal(t, 3, int1)
-	assert.Equal(t, "fizz", word1)
-	assert.Equal(t, 5, int2)
-	assert.Equal(t, "buzz", word2)
-	assert.Equal(t, 15, limit)
-}
-
-func Test_should_return_parameters_values_when_fizzbuzz_parameters_are_in_the_url(t *testing.T) {
-	// Given a fizzbuzz request with parameters
-	r, err := http.NewRequest(http.MethodGet, "/fizzbuzz?int1=4&word1=titi&int2=7&word2=toto&limit=30", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// When I parse the URL to find the parameters
-	int1, word1, int2, word2, limit := parseRequestParameters(r.URL)
-
-	// Then the parameters are equall to the default values
-	assert.Equal(t, 4, int1)
-	assert.Equal(t, "titi", word1)
-	assert.Equal(t, 7, int2)
-	assert.Equal(t, "toto", word2)
-	assert.Equal(t, 30, limit)
-}
-
-func Test_should_return_dafault_value_when_a_numeric_parameter_value_is_nan(t *testing.T) {
-	// Given a fizzbuzz request with parameters
-	r, err := http.NewRequest(http.MethodGet, "/fizzbuzz?int1=ab&word1=titi&int2=cd&word2=toto&limit=ef", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// When I parse the URL to find the parameters
-	int1, word1, int2, word2, limit := parseRequestParameters(r.URL)
-
-	// Then the parameters are equall to the default values
-	assert.Equal(t, 3, int1)
-	assert.Equal(t, "titi", word1)
-	assert.Equal(t, 5, int2)
-	assert.Equal(t, "toto", word2)
-	assert.Equal(t, 15, limit)
-}
 
 func Test_Error_when_POST_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	// Given a POST on /fizzbuzz
@@ -70,7 +18,7 @@ func Test_Error_when_POST_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -88,7 +36,7 @@ func Test_Error_when_PUT_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -106,7 +54,7 @@ func Test_Error_when_DELETE_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -124,7 +72,7 @@ func Test_Error_when_PATCH_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -142,7 +90,7 @@ func Test_Error_when_OPTION_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -160,7 +108,7 @@ func Test_Get_Fizzbuzz_without_parameters_should_return_a_list_of_15_elements(t 
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -178,7 +126,7 @@ func Test_Get_Fizzbuzz_without_parameters_should_be_ok(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(fizzBuzzHandler)
+	handler := http.HandlerFunc(NewFizzBuzzHandler(statistics.NewRepository()))
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
