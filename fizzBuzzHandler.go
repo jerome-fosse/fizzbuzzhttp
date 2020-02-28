@@ -17,7 +17,7 @@ type Fizzbuzz struct {
 }
 
 // FizzbuzzHandler handles http requests to fizzbuzz
-func FizzbuzzHandler(w http.ResponseWriter, r *http.Request) {
+func fizzBuzzHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		getFizzbuzz(w, r)
 	} else {

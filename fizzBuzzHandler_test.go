@@ -70,7 +70,7 @@ func Test_Error_when_POST_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -88,7 +88,7 @@ func Test_Error_when_PUT_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -106,7 +106,7 @@ func Test_Error_when_DELETE_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -124,7 +124,7 @@ func Test_Error_when_PATCH_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -142,7 +142,7 @@ func Test_Error_when_OPTION_method_is_used_on_fizzbuzz_endpoint(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -160,7 +160,7 @@ func Test_Get_Fizzbuzz_without_parameters_should_return_a_list_of_15_elements(t 
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
@@ -178,7 +178,7 @@ func Test_Get_Fizzbuzz_without_parameters_should_be_ok(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	handler := http.HandlerFunc(FizzbuzzHandler)
+	handler := http.HandlerFunc(fizzBuzzHandler)
 
 	// When I execute the request
 	handler.ServeHTTP(rec, req)
