@@ -34,11 +34,11 @@ Exemple :
 ./fizzbuzzhttp --port=8081 --verbose
 ```
 
-## Endpoint
-1 - GET /whoami<br>
+# Endpoints
+## 1 - GET /whoami
 Show version number.
 
-2 - GET /fizzbuzz<br>
+## 2 - GET /fizzbuzz
 This endpoint generate a fizzbuzz sequence with 15 elements. Its behaviour can be customized with 5 query parameters :
 
 - int1 : every numbers that can be divided by int1 will be replaced by fizz or an other word that can be set with a parameter.<br>
@@ -52,7 +52,7 @@ Default value is buzz.
 - limit : a number that set the size of the fizzbuzz sequence<br>
 Default value is 15
 
-## Curl Exemples
+### Curl Examples
 ```
 curl -X GET http://localhost:8080/fizzbuzz | jq
 
@@ -113,4 +113,36 @@ curl -X GET "http://localhost:8080/fizzbuzz?int1=4&word1=Hello&int2=6&word2=Worl
     "World"
   ]
 }
+```
+## 3 - GET /stats
+This end point shows statistics per FizzBuzz query. For each Query the statistics available are the number of hits and the date of the last hit. This endpoint has one parameter :
+- limit : the number of FizzBuzz queries to show. If not set all queries that have been requested since the server is up are shown with their statistics.
+
+### Curl example
+```
+curl -X GET http://localhost:8080/stats?limit=4 | jq
+
+[
+  {
+    "Query": "[int1 = 3, word1 = hello, int2 = 5, word2 = world, limit = 15]",
+    "Hits": 24,
+    "LastHit": "2020-03-01T18:52:01.491385755+01:00"
+  },
+  {
+    "Query": "[int1 = 3, word1 = fizz, int2 = 5, word2 = buzz, limit = 15]",
+    "Hits": 20,
+    "LastHit": "2020-03-01T18:52:01.48812416+01:00"
+  },
+  {
+    "Query": "[int1 = 3, word1 = hello, int2 = 5, word2 = world, limit = 30]",
+    "Hits": 14,
+    "LastHit": "2020-03-01T18:52:01.494784265+01:00"
+  },
+  {
+    "Query": "[int1 = 3, word1 = fizz, int2 = 5, word2 = buzz, limit = 30]",
+    "Hits": 10,
+    "LastHit": "2020-03-01T18:52:01.492829939+01:00"
+  }
+]
+
 ```
