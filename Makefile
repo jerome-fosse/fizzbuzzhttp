@@ -30,7 +30,10 @@ docker-build:
 
 integration-test: docker-build
 	@docker run --rm --name fizzbuzzhttpIT -d -p 8080:8080 jfosse/fizzbuzzhttp:${VERSION}
-	@go test -v ./itest/... -tags=integration
+	@go test -v ./itest/fizzbuzz_test.go -tags=integration
+	@docker stop fizzbuzzhttpIT
+	@docker run --rm --name fizzbuzzhttpIT -d -p 8080:8080 jfosse/fizzbuzzhttp:${VERSION}
+	@go test -v ./itest/statistics_test.go -tags=integration
 	@docker stop fizzbuzzhttpIT
 
 docker-push: integration-test
