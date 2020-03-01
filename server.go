@@ -29,7 +29,7 @@ func NewFizzBuzzServer(port int) *FizzBuzzServer {
 	router := mux.NewRouter()
 	router.HandleFunc("/fizzbuzz", handlers.NewFizzBuzzHandler(repo))
 	router.HandleFunc("/whoami", handlers.NewWhoAmIHandler(version))
-	router.HandleFunc("/stats", handlers.NewStatsHandler())
+	router.HandleFunc("/stats", handlers.NewStatsHandler(repo))
 
 	return &FizzBuzzServer{
 		port,

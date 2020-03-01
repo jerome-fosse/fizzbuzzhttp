@@ -2,19 +2,21 @@ package statistics
 
 import (
 	"fmt"
+	"sort"
 	"sync"
 	"time"
 
 	"github.com/sirupsen/logrus"
 )
 
-// Statistics collected for each fizzbuzz request
-type Statistics struct {
+// StatisticEntry collected for each fizzbuzz request
+type StatisticEntry struct {
+	Query   string
 	Hits    int
 	LastHit time.Time
 }
 
-func (s Statistics) String() string {
+func (s StatisticEntry) String() string {
 	return fmt.Sprintf("[Hits = %d, Last Hit = %v]", s.Hits, s.LastHit)
 }
 
@@ -22,7 +24,7 @@ func (s Statistics) String() string {
 // are lost when server stops.
 type StatisticRepository struct {
 	sync.RWMutex
-	stats map[string]Statistics
+	stats map[string]StatisticEntry
 }
 
 // Save access statistics of a request in a map
@@ -32,13 +34,13 @@ func (r *StatisticRepository) Save(query string) {
 	stat, ok := r.stats[query]
 	r.RUnlock()
 
-	var newStat Statistics
+	var newStat StatisticEntry
 	if !ok {
 		logrus.Debugf("%s is requested for the first time.", query)
-		newStat = Statistics{1, time.Now()}
+		newStat = StatisticEntry{query, 1, time.Now()}
 	} else {
 		logrus.Debugf("Statistics for request %s were %v", query, stat)
-		newStat = Statistics{stat.Hits + 1, time.Now()}
+		newStat = StatisticEntry{query, stat.Hits + 1, time.Now()}
 	}
 
 	r.Lock()
@@ -47,11 +49,31 @@ func (r *StatisticRepository) Save(query string) {
 }
 
 // FindTopLimitBy returns the x requests the most used.
-func (r *StatisticRepository) FindTopLimitBy(limit int) {
+func (r *StatisticRepository) FindTopLimitBy(limit int) []StatisticEntry {
+	values := []StatisticEntry{}
+	r.RLock()
+	for _, v := range r.stats {
+		values = append(values, v)
+	}
+	r.RUnlock()
 
+	sort.Slice(values, func(i, j int) bool {
+		return values[i].Hits > values[j].Hits
+	})
+
+	if len(values) < limit {
+		limit = len(values)
+	}
+
+	retvals := make([]StatisticEntry, limit)
+	for i := 0; i < limit; i++ {
+		retvals[i] = values[i]
+	}
+
+	return retvals
 }
 
 // NewRepository create a new StatisticRepository
 func NewRepository() *StatisticRepository {
-	return &StatisticRepository{stats: make(map[string]Statistics)}
+	return &StatisticRepository{stats: make(map[string]StatisticEntry)}
 }

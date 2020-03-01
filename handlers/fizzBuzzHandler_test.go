@@ -119,7 +119,7 @@ func Test_Get_Fizzbuzz_without_parameters_should_return_a_list_of_15_elements(t 
 }
 
 func Test_Get_Fizzbuzz_without_parameters_should_be_ok(t *testing.T) {
-	// Given a PUT on /fizzbuzz
+	// Given a GET on /fizzbuzz
 	req, err := http.NewRequest(http.MethodGet, "/fizzbuzz?limit=20&word1=titi&word2=toto&int1=4&int2=7", nil)
 	if err != nil {
 		t.Fatal(err)
