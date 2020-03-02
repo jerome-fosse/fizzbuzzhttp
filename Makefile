@@ -27,6 +27,7 @@ install: build
 
 docker-build:
 	@docker build --tag jfosse/fizzbuzzhttp:latest --tag jfosse/fizzbuzzhttp:${VERSION} --force-rm --build-arg VERSION=${VERSION} .
+	@docker image prune --force --filter label=stage=fizzbuzzhttp-builder
 
 integration-test: docker-build
 	@docker run --rm --name fizzbuzzhttpIT -d -p 8080:8080 jfosse/fizzbuzzhttp:${VERSION}

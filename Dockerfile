@@ -1,6 +1,9 @@
 ### Step 1 : Build the executable
 FROM golang:1.13 AS builder
 
+LABEL stage="fizzbuzzhttp-builder"
+
+ARG VERSION
 ENV CGO_ENABLED 0
 ENV GOOS linux
 
